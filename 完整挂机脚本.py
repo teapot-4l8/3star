@@ -101,20 +101,82 @@ def signJob():
     print(resp.text)
 
 def view_video():
-    pass
+    time_stamp, random_str, signature = a(uid)
+    url = "https://xcx.vipxufan.com//star/apix171/viewVideo"
+    data = {
+        "uid": uid,
+        "xid": "171",
+        "v": "2",
+        "timeStamp": time_stamp,
+        "randomStr": random_str,
+        "signature": signature
+    }
+
+    for i in range(5):
+        resp = requests.post(url, headers=headers, data=data, verify=False)
+        time.sleep(1)
+        print(resp.text)
+
+    data["type"] = "1"
+    for i in range(3):
+        resp = requests.post(url, headers=headers, data=data,
+                             verify=False)  # FIXME {"status":0,"data":null,"msg":"参数错误","err":"no"}
+        time.sleep(1)
+        print(resp.text)
 
 def choujinag():
-    pass
+    time_stamp, random_str, signature = a(uid)
+    url = "https://xcx.vipxufan.com/star/apix171/lotteryWeb"
+    data = {
+        "angle": "0",
+        "uid": uid,
+        "xid": "171",
+        "v": "2",
+        "timeStamp": time_stamp,
+        "randomStr": random_str,
+        "signature": signature
+    }
+    for i in range(6):
+        resp = requests.post(url=url, headers=headers, data=data, verify=False)
+        print(resp.text)
+
+def getjob():
+    time_stamp, random_str, signature = a(uid)
+    data = {
+        'id': '3',
+        'uid': uid,
+        'xid': '171',
+        'v': '2',
+        "timeStamp": time_stamp,
+        "randomStr": random_str,
+        "signature": signature
+    }
+
+    response = requests.post('https://xcx.vipxufan.com/star/apix171/getjob', headers=headers, data=data)
+    print(response.text)
+
+def water():
+    time_stamp, random_str, signature = a(uid)
+    data = {
+        'uid': uid,
+        'xid': '171',
+        'v': '2',
+        "timeStamp": time_stamp,
+        "randomStr": random_str,
+        "signature": signature
+    }
+
+    response = requests.post('https://xcx.vipxufan.com/star/apix171/water', headers=headers, data=data, verify=False)
+    print(response.text)
+
 
 def do_every_day_task():
     signJob()
-    for _ in range(5):
-        view_video()
-        time.sleep(3)
+    view_video()
     xiaochengxu()
-    for _ in range(3):  # 任务上显示4次，实际上只能抽三次，再多就要看视频
-        choujinag()
-        time.sleep(3)
+    choujinag()
+    getjob()
+    water()
 
 
 def xiaochengxu():
@@ -162,7 +224,7 @@ def get_basic_info():
 if __name__ == '__main__':  # TODO print -> log
     uid = os.environ['uid']
     highest_num, auto_num = get_basic_info()
-    # do_every_day_task()
+    do_every_day_task()
     print("每日任务完成")
     total_num = int(highest_num/auto_num)
     print(f"循环次数=>{total_num}")
