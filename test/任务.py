@@ -108,7 +108,7 @@ def view_video():
 
     data["type"] = "1"
     for i in range(3):
-        resp = requests.post(url, headers=headers, data=data, verify=False)  # FIXME {"status":0,"data":null,"msg":"参数错误","err":"no"}
+        resp = requests.post(url, headers=headers, data=data, verify=False)
         time.sleep(1)
         print(resp.text)
 
@@ -190,7 +190,7 @@ def water():  # 有点奇怪 没有找到能量个数
 
 if __name__ == '__main__':
     uid = os.environ["uid"]
-    signJob()  # TODO 签到挑战
+    signJob()  # TODO 签到挑战 FIXME 用户异常 每天第一次运行
     # chaohua()  # TODO 微博爬取一个放进来
     view_video()
     xiaochengxu()

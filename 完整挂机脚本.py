@@ -61,7 +61,9 @@ def validsave():
     }
 
     resp = requests.post(url, headers=headers, data=data, verify=False)
-    print(resp.text)
+    print(resp.json())
+    err = resp.json()["err"]
+    return err
 
 
 def send_diamonds():
@@ -86,6 +88,7 @@ def signJob():
     """
     签到
     :return: {"status":200,"data":{"msg":"恭喜获得3钻石和1g能量","data":1,"number":3,"water":1},"msg":null,"err":"返回成功"}
+    {"status":0,"data":null,"msg":"用户异常","err":"0"}  TODO 奇怪
     """
     time_stamp, random_str, signature = a(uid)
     data = {
@@ -119,8 +122,7 @@ def view_video():
 
     data["type"] = "1"
     for i in range(3):
-        resp = requests.post(url, headers=headers, data=data,
-                             verify=False)  # FIXME {"status":0,"data":null,"msg":"参数错误","err":"no"}
+        resp = requests.post(url, headers=headers, data=data, verify=False)
         time.sleep(1)
         print(resp.text)
 
@@ -229,8 +231,10 @@ if __name__ == '__main__':  # TODO print -> log
     total_num = int(highest_num/auto_num)
     print(f"循环次数=>{total_num}")
     print(f"需要{total_num * 13 / 60}分钟")
-    for i in range(total_num):
-        validsave()
+    for i in range(total_num):  # TODO 结束后清算钻石
+        err = validsave()
+        if err:
+            break
         validNum()
         send_diamonds()
         time.sleep(13)
