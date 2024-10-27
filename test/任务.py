@@ -190,7 +190,7 @@ def water():  # 有点奇怪 没有找到能量个数
 
 if __name__ == '__main__':
     uid = os.environ["uid"]
-    signJob()  # TODO 签到挑战 FIXME 用户异常 每天第一次运行
+    signJob()  # TODO 签到挑战
     # chaohua()  # TODO 微博爬取一个放进来
     view_video()
     xiaochengxu()

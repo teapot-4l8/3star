@@ -62,8 +62,8 @@ def validsave():
 
     resp = requests.post(url, headers=headers, data=data, verify=False)
     print(resp.json())
-    err = resp.json()["err"]
-    return err
+    msg = resp.json()["msg"]
+    return msg
 
 
 def send_diamonds():
@@ -226,14 +226,14 @@ def get_basic_info():
 if __name__ == '__main__':  # TODO print -> log
     uid = os.environ['uid']
     highest_num, auto_num = get_basic_info()
-    do_every_day_task()
-    print("每日任务完成")
+    # do_every_day_task()
+    # print("每日任务完成")
     total_num = int(highest_num/auto_num)
-    print(f"循环次数=>{total_num}")
-    print(f"需要{total_num * 13 / 60}分钟")
+    # print(f"循环次数=>{total_num}")
+    # print(f"需要{total_num * 13 / 60}分钟")
     for i in range(total_num):  # TODO 结束后清算钻石
-        err = validsave()
-        if err:
+        msg = validsave()
+        if msg:
             break
         validNum()
         send_diamonds()
