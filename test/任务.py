@@ -1,4 +1,4 @@
-
+import re
 import os
 import requests
 import hashlib
@@ -59,6 +59,46 @@ def signJob():
     print(resp.text)
 
 
+def weibo_crawler() -> str:
+    DOMAIN = "https://m.weibo.cn/detail/"
+    headers = {
+        'accept': 'application/json, text/plain, */*',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'cache-control': 'no-cache',
+        'mweibo-pwa': '1',
+        'pragma': 'no-cache',
+        'priority': 'u=1, i',
+        'referer': 'https://m.weibo.cn/p/index?extparam=%E8%82%96%E5%AE%87%E6%A2%81&containerid=100808abb887d7734e4121eef9853b451c11b9&luicode=20000061&lfid=5095189509047708',
+        'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+        'x-requested-with': 'XMLHttpRequest',
+        'x-xsrf-token': '5fa3ae',
+    }
+    params = {
+        'extparam': '肖宇梁',
+        'containerid': '100808abb887d7734e4121eef9853b451c11b9',
+        # 'luicode': '20000061',
+        # 'lfid': '5095189509047708',
+    }
+    response = requests.get('https://m.weibo.cn/api/container/getIndex', params=params, headers=headers)
+    cards = response.json()['data']['cards']
+    for card in cards:
+        try:
+            mblog = card['mblog']
+            text = mblog['text']
+            id_ = mblog['id']
+            target_page_url = DOMAIN + id_
+            if bool(re.search(r'『五号星球』', text)):
+                return target_page_url
+        except KeyError:
+            pass
+    return ""
+
 def chaohua():
     """
     微博超话发帖
@@ -66,7 +106,7 @@ def chaohua():
     {"status":200,"data":0,"msg":"该链接已被领取过了","err":null}
     {"status":200,"data":{"status":1,"msg":"快来wx小橙序『五号星球』一起为爱心公益助力，我们在[给你小心心]XX星球[给你小心心]等你哦~"},"msg":"","err":""}
     """
-
+    url = weibo_crawler()
     data = {
         'type': '0',
         'url': 'https://m.weibo.cn/detail/5092405743453302',  # https://m.weibo.ccn/7796346942/5092407916103268
@@ -190,10 +230,10 @@ def water():  # 有点奇怪 没有找到能量个数
 
 if __name__ == '__main__':
     uid = os.environ["uid"]
-    signJob()  # TODO 签到挑战
-    # chaohua()  # TODO 微博爬取一个放进来
-    view_video()
-    xiaochengxu()
-    choujinag()
-    getjob()  # 抽奖4次就能领取
-    water()  # 使用能量
+    # signJob()  # TODO 签到挑战
+    # # chaohua()  # TODO 微博爬取一个放进来
+    # view_video()
+    # xiaochengxu()
+    # choujinag()
+    # getjob()  # 抽奖4次就能领取
+    # water()  # 使用能量

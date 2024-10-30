@@ -3,6 +3,7 @@ import hashlib
 import time
 import random
 import os
+import re
 
 headers = {
     "host": "xcx.vipxufan.com",
@@ -40,7 +41,7 @@ def validNum():
     url = "https://xcx.vipxufan.com/star/apix171/validNum"
     time_stamp, random_str, signature = a(uid)
     data = {
-        "num": auto_num,
+        "num": highest_num,
         "uid": uid,
         "xid": "171",
         "v": "2",
@@ -49,7 +50,7 @@ def validNum():
         "signature": signature
     }
 
-    resp = requests.post(url, headers=headers, data=data, verify=False)
+    resp = requests.post(url, headers=headers, data=data)
     print(resp.text)
 
 
@@ -60,7 +61,7 @@ def validsave():
         "xid": "171"
     }
 
-    resp = requests.post(url, headers=headers, data=data, verify=False)
+    resp = requests.post(url, headers=headers, data=data)
     print(resp.json())
     msg = resp.json()["msg"]
     return msg
@@ -71,7 +72,7 @@ def send_diamonds():
     time_stamp, random_str, signature = a(uid)
     data = {
         "sid": "88",
-        "number": auto_num,
+        "number": highest_num,
         "type": "0",
         "uid": uid,
         "xid": "171",
@@ -81,14 +82,13 @@ def send_diamonds():
         "signature": signature
     }
 
-    resp = requests.post(url, headers=headers, data=data, verify=False)
+    resp = requests.post(url, headers=headers, data=data)
     print(resp.text)
 
 def signJob():
     """
     签到
     :return: {"status":200,"data":{"msg":"恭喜获得3钻石和1g能量","data":1,"number":3,"water":1},"msg":null,"err":"返回成功"}
-    {"status":0,"data":null,"msg":"用户异常","err":"0"}  TODO 奇怪
     """
     time_stamp, random_str, signature = a(uid)
     data = {
@@ -103,6 +103,59 @@ def signJob():
     resp = requests.post('https://xcx.vipxufan.com/star/apix171/signJob', headers=headers, data=data)
     print(resp.text)
 
+def weibo_crawler() -> str:
+    DOMAIN = "https://m.weibo.cn/detail/"
+    headers = {
+        'accept': 'application/json, text/plain, */*',
+        'accept-language': 'zh-CN,zh;q=0.9',
+        'cache-control': 'no-cache',
+        'mweibo-pwa': '1',
+        'pragma': 'no-cache',
+        'priority': 'u=1, i',
+        'referer': 'https://m.weibo.cn/p/index?extparam=%E8%82%96%E5%AE%87%E6%A2%81&containerid=100808abb887d7734e4121eef9853b451c11b9&luicode=20000061&lfid=5095189509047708',
+        'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Windows"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+        'x-requested-with': 'XMLHttpRequest',
+        'x-xsrf-token': '5fa3ae',
+    }
+    params = {
+        'extparam': '肖宇梁',
+        'containerid': '100808abb887d7734e4121eef9853b451c11b9',
+        # 'luicode': '20000061',
+        # 'lfid': '5095189509047708',
+    }
+    response = requests.get('https://m.weibo.cn/api/container/getIndex', params=params, headers=headers)
+    cards = response.json()['data']['cards']
+    for card in cards:
+        try:
+            mblog = card['mblog']
+            text = mblog['text']
+            id_ = mblog['id']
+            target_page_url = DOMAIN + id_
+            if bool(re.search(r'『五号星球』', text)):
+                return target_page_url
+        except KeyError:
+            pass
+    return ""
+
+
+def chaohua():
+    url = weibo_crawler()
+    data = {
+        'type': '0',
+        'url': url,
+        'uid': uid,
+        'xid': '171',
+    }
+
+    response = requests.post('https://xcx.vipxufan.com/star/apix171/checkChaoHua', headers=headers, data=data)
+    print(response.text)
+
 def view_video():
     time_stamp, random_str, signature = a(uid)
     url = "https://xcx.vipxufan.com//star/apix171/viewVideo"
@@ -116,14 +169,14 @@ def view_video():
     }
 
     for i in range(5):
-        resp = requests.post(url, headers=headers, data=data, verify=False)
-        time.sleep(1)
+        resp = requests.post(url, headers=headers, data=data)
+        # time.sleep(1)
         print(resp.text)
 
     data["type"] = "1"
     for i in range(3):
-        resp = requests.post(url, headers=headers, data=data, verify=False)
-        time.sleep(1)
+        resp = requests.post(url, headers=headers, data=data)
+        # time.sleep(1)
         print(resp.text)
 
 def choujinag():
@@ -139,7 +192,7 @@ def choujinag():
         "signature": signature
     }
     for i in range(6):
-        resp = requests.post(url=url, headers=headers, data=data, verify=False)
+        resp = requests.post(url=url, headers=headers, data=data)
         print(resp.text)
 
 def getjob():
@@ -168,12 +221,13 @@ def water():
         "signature": signature
     }
 
-    response = requests.post('https://xcx.vipxufan.com/star/apix171/water', headers=headers, data=data, verify=False)
+    response = requests.post('https://xcx.vipxufan.com/star/apix171/water', headers=headers, data=data)
     print(response.text)
 
 
 def do_every_day_task():
-    signJob()
+    signJob()  # TODO 累计签到
+    chaohua()
     view_video()
     xiaochengxu()
     choujinag()
@@ -211,7 +265,7 @@ def get_basic_info():
         'xid': '171',
     }
 
-    response = requests.post('https://xcx.vipxufan.com/star/apix171/getIndex', headers=headers, data=data, verify=False)
+    response = requests.post('https://xcx.vipxufan.com/star/apix171/getIndex', headers=headers, data=data)
     # print(response.text)
     user_info = response.json()["data"]["user_info"]
     # print(user_info)
@@ -219,24 +273,24 @@ def get_basic_info():
     rank = response.json()["data"]["rank"]
     highest_num = rank["highest_num"]  # 每天最多获取钻石shu
     auto_num = rank["auto_num"]  # 30秒自动增加的钻石数
-
     return highest_num, auto_num
 
 
 if __name__ == '__main__':  # TODO print -> log
     uid = os.environ['uid']
     highest_num, auto_num = get_basic_info()
-    # do_every_day_task()
-    # print("每日任务完成")
+    do_every_day_task()
+    print("每日任务完成")
     total_num = int(highest_num/auto_num)
-    # print(f"循环次数=>{total_num}")
-    # print(f"需要{total_num * 13 / 60}分钟")
-    for i in range(total_num):  # TODO 结束后清算钻石
+    print(f"循环次数=>{total_num}")
+    print(f"需要{total_num * 13 / 60}分钟")
+    for i in range(total_num):
         msg = validsave()
         if msg:
             break
-        validNum()
-        send_diamonds()
+        # validNum()
+        # send_diamonds()
         time.sleep(13)
 
-
+    validNum()  # 一次性收走所有产出的钻石
+    send_diamonds()  # 一次性将所有钻石存入xyl星球
