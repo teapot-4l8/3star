@@ -1,7 +1,7 @@
 # 运行
 1. 用抓包工具抓包。教程：https://www.bilibili.com/video/BV1vM4y1V78M/
 2. 把 `uid` 换成你自己的
-3. 运行脚本前手动打开一次小程序，然后关掉
+3. 运行脚本前手动打开一次小程序(手机/电脑均可)，然后关掉
 4. 运行脚本 [完整挂机脚本](完整挂机脚本.py)
 5. 等待程序运行结束
 
@@ -226,8 +226,6 @@ def a(uid):
 
 10.22又试了一下，可以运行，发了不到5次，却是显示观看了视频5次，奇怪
 
-
-
 ## 发超话
 
 微博超话发帖:会记录帖子是否被领取过
@@ -312,3 +310,236 @@ https://www.cnblogs.com/du-jun/p/12720945.html
 315 180 90 360 225 90
 
 45 315 180 150 315 315
+
+270 180 270 45 360 270 
+
+## 连续签到天数判断
+
+signList
+
+```json
+{
+	"status": 200,
+	"data": {
+		"list": [{
+			"date": 1,
+			"num": 5,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 2,
+			"num": 6,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 3,
+			"num": 7,
+			"type": 2,
+			"status": 1,
+			"is_today": 0
+		}, {
+			"date": 4,
+			"num": 8,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 5,
+			"num": 9,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 6,
+			"num": 10,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 7,
+			"num": 10,
+			"type": 2,
+			"status": 1,
+			"is_today": 0
+		}, {
+			"date": 8,
+			"num": 11,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 9,
+			"num": 12,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 10,
+			"num": 13,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 11,
+			"num": 14,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 12,
+			"num": 15,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 13,
+			"num": 16,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 14,
+			"num": 17,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 15,
+			"num": 17,
+			"type": 2,
+			"status": 1,
+			"is_today": 0
+		}, {
+			"date": 16,
+			"num": 18,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 17,
+			"num": 19,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 18,
+			"num": 20,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 19,
+			"num": 21,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 20,
+			"num": 22,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 21,
+			"num": 23,
+			"type": 2,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 22,
+			"num": 24,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 23,
+			"num": 25,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 24,
+			"num": 26,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 25,
+			"num": 27,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 26,
+			"num": 28,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 27,
+			"num": 29,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 28,
+			"num": 30,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 29,
+			"num": 31,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 30,
+			"num": 32,
+			"type": 1,
+			"status": 0,
+			"is_today": 0
+		}, {
+			"date": 31,
+			"num": 33,
+			"type": 1,
+			"status": 1,
+			"is_today": 1
+		}],
+		"sign_job": [{
+			"id": 3,
+			"name": "累计签到3天赠送1g能量",
+			"ratio": "433",
+			"status": 2,
+			"day": 3
+		}, {
+			"id": 7,
+			"name": "累计签到7天赠送100钻石和3g能量",
+			"ratio": "186",
+			"status": 1,
+			"day": 7
+		}, {
+			"id": 15,
+			"name": "累计签到15天赠送100g钻石和八折道具卡*1",
+			"ratio": "87",
+			"status": 0,
+			"day": 15
+		}, {
+			"id": "31",
+			"name": "累计签到31天赠送500g钻石和八折道具卡*2",
+			"ratio": "42",
+			"status": 0,
+			"day": "31"
+		}],
+		"succession": 10,
+		"title": "10月签到挑战",
+		"is_sign": 1
+	},
+	"msg": "ok",
+	"err": null
+}
+```
+
+

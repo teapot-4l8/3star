@@ -38,7 +38,25 @@ def a(uid):
     e = hex_md5(e)
     return a, o, e
 
+def check_signList() -> int:
+    """
+    检查是否连续签到 3/7/15/31 天
+    :return:
+    """
+    data = {
+        'uid': '7740581754f9f09cb99dceebca95bde6',
+        'xid': '171',
+    }
 
+    continuous_sign_num = 0
+
+    response = requests.post('https://xcx.vipxufan.com/star/apix171/signList', headers=headers, data=data)
+    sign_job = response.json()['data']['sign_job']
+    for s in sign_job:
+        if s['status'] == 1:
+            continuous_sign_num = s['id']
+
+    return continuous_sign_num
 
 def signJob():
     """
@@ -57,6 +75,16 @@ def signJob():
     }
     resp = requests.post('https://xcx.vipxufan.com/star/apix171/signJob',headers=headers,data=data,verify=False)
     print(resp.text)
+
+    # 检查是否连续签到
+    continuous_sign_num = check_signList()
+    if continuous_sign_num:
+        data.__delitem__("type")
+        data['id'] = continuous_sign_num
+        time_stamp, random_str, signature = a(uid)
+        response = requests.post('https://xcx.vipxufan.com/star/apix171/signJob', headers=headers, data=data,
+                                 verify=False)
+        print(response.text)
 
 
 def weibo_crawler() -> str:
@@ -230,8 +258,8 @@ def water():  # 有点奇怪 没有找到能量个数
 
 if __name__ == '__main__':
     uid = os.environ["uid"]
-    # signJob()  # TODO 签到挑战
-    # # chaohua()  # TODO 微博爬取一个放进来
+    signJob()  # TODO 签到挑战
+    # chaohua()
     # view_video()
     # xiaochengxu()
     # choujinag()

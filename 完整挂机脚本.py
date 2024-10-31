@@ -36,7 +36,6 @@ def a(uid):
     e = hex_md5(e)
     return a, o, e
 
-
 def validNum():
     url = "https://xcx.vipxufan.com/star/apix171/validNum"
     time_stamp, random_str, signature = a(uid)
@@ -53,7 +52,6 @@ def validNum():
     resp = requests.post(url, headers=headers, data=data)
     print(resp.text)
 
-
 def validsave():
     url = "https://xcx.vipxufan.com/star/apix171/validSave"
     data = {
@@ -65,7 +63,6 @@ def validsave():
     print(resp.json())
     msg = resp.json()["msg"]
     return msg
-
 
 def send_diamonds():
     url = "https://xcx.vipxufan.com/star/apix171/dahit"
@@ -142,7 +139,6 @@ def weibo_crawler() -> str:
         except KeyError:
             pass
     return ""
-
 
 def chaohua():
     url = weibo_crawler()
@@ -224,7 +220,6 @@ def water():
     response = requests.post('https://xcx.vipxufan.com/star/apix171/water', headers=headers, data=data)
     print(response.text)
 
-
 def do_every_day_task():
     signJob()  # TODO 累计签到
     chaohua()
@@ -233,7 +228,6 @@ def do_every_day_task():
     choujinag()
     getjob()
     water()
-
 
 def xiaochengxu():
     url = "https://xcx.vipxufan.com//star/apix171/appjob"
@@ -253,7 +247,6 @@ def xiaochengxu():
     data["appId"] = "wxa501c36b93761f58"
     resp = requests.post(url=url, headers=headers, data=data)
     print(resp.text)
-
 
 def get_basic_info():
     """
