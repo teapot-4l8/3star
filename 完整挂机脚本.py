@@ -222,12 +222,12 @@ def water():
 
 def do_every_day_task():
     signJob()  # TODO 累计签到
-    chaohua()
+    chaohua()  # TODO 超话自动翻页
     view_video()
     xiaochengxu()
     choujinag()
     getjob()
-    water()
+    # water()  # 可删去 让用户看到效果
 
 def xiaochengxu():
     url = "https://xcx.vipxufan.com//star/apix171/appjob"
@@ -269,6 +269,10 @@ def get_basic_info():
     return highest_num, auto_num
 
 
+def check_diamonds_num() -> int:
+    pass
+
+
 if __name__ == '__main__':  # TODO print -> log
     uid = os.environ['uid']
     highest_num, auto_num = get_basic_info()
@@ -285,5 +289,7 @@ if __name__ == '__main__':  # TODO print -> log
         # send_diamonds()
         time.sleep(13)
 
+    # TODO 检查前端钻石总数，免得收走钻石的时候报错  找不到 :(
+    # diamonds_num = check_diamonds_num()
     validNum()  # 一次性收走所有产出的钻石
-    send_diamonds()  # 一次性将所有钻石存入xyl星球
+    # send_diamonds()  # 一次性将所有钻石存入xyl星球
