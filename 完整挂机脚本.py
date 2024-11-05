@@ -291,5 +291,5 @@ if __name__ == '__main__':  # TODO print -> log
 
     # TODO 检查前端钻石总数，免得收走钻石的时候报错  找不到 :(
     # diamonds_num = check_diamonds_num()
-    validNum()  # 一次性收走所有产出的钻石
+    # validNum()  # 一次性收走所有产出的钻石
     # send_diamonds()  # 一次性将所有钻石存入xyl星球
