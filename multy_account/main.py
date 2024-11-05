@@ -9,6 +9,7 @@ from account import uid_list
 
 class ThreeStar:
     def __init__(self, uid):
+        self.diamonds_num = 0
         self.headers = {
             "host": "xcx.vipxufan.com",
             "xweb_xhr": "1",
@@ -35,7 +36,6 @@ class ThreeStar:
         o = t[i:i + 8]
         a = time.time() * 1000
 
-        # 假设存在一个函数计算 MD5 的十六进制值，这里只是模拟
         def hex_md5(data):
             m = hashlib.md5()
             m.update(data.encode())
@@ -57,14 +57,19 @@ class ThreeStar:
             if msg:
                 break
             time.sleep(13)
+        self.diamonds_num = self.check_diamonds_num()
+        self.validNum()
 
     def do_every_day_task(self):
-        self.signJob()
-        self.chaohua()
-        self.view_video()
-        self.xiaochengxu()
-        self.choujinag()
-        self.getjob()
+        tasks = [self.signJob, self.chaohua, self.view_video, self.xiaochengxu, self.choujinag, self.getjob]
+        for task in tasks:
+            task()
+
+    def post_request(self, url, data):
+        """通用的POST请求方法"""
+        resp = requests.post(url, headers=self.headers, data=data)
+        # print(resp.text)
+        return resp
 
     def signJob(self):
         time_stamp, random_str, signature = self.a()
@@ -77,8 +82,17 @@ class ThreeStar:
             "randomStr": random_str,
             "signature": signature
         }
-        resp = requests.post('https://xcx.vipxufan.com/star/apix171/signJob', headers=self.headers, data=data)
+        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/signJob', data)
         print(resp.text)
+
+        continuous_sign_num = self.check_signList()
+        if continuous_sign_num:
+            data.__delitem__("type")
+            data['id'] = continuous_sign_num
+            time_stamp, random_str, signature = self.a()
+            data.update({"timeStamp": time_stamp, "randomStr": random_str, "signature": signature})
+            resp = self.post_request('https://xcx.vipxufan.com/star/apix171/signJob', data)
+            print(resp.text)
 
     def chaohua(self):
         url = self.weibo_crawler()
@@ -89,8 +103,8 @@ class ThreeStar:
             'xid': '171',
         }
 
-        response = requests.post('https://xcx.vipxufan.com/star/apix171/checkChaoHua', headers=self.headers, data=data)
-        print(response.text)
+        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/checkChaoHua', data)
+        print(resp.text)
 
     def view_video(self):
         time_stamp, random_str, signature = self.a()
@@ -105,19 +119,19 @@ class ThreeStar:
         }
 
         for i in range(5):
-            resp = requests.post(url, headers=self.headers, data=data)
+            resp = self.post_request(url, data)
             print(resp.text)
 
         data["type"] = "1"
         for i in range(3):
-            resp = requests.post(url, headers=self.headers, data=data)
+            resp = self.post_request(url, data)
             print(resp.text)
 
     def xiaochengxu(self):
         url = "https://xcx.vipxufan.com//star/apix171/appjob"
         time_stamp, random_str, signature = self.a()
         data = {
-            "appId": "wx3d7f3ea7e3793fa3",  # "大屏投放"小程序
+            "appId": "wx3d7f3ea7e3793fa3",
             "uid": self.uid,
             "xid": "171",
             "v": "2",
@@ -126,10 +140,10 @@ class ThreeStar:
             "signature": signature
         }
 
-        resp = requests.post(url=url, headers=self.headers, data=data)
+        resp = self.post_request(url, data)
         print(resp.text)
         data["appId"] = "wxa501c36b93761f58"
-        resp = requests.post(url=url, headers=self.headers, data=data)
+        resp = self.post_request(url, data)
         print(resp.text)
 
     def choujinag(self):
@@ -145,7 +159,7 @@ class ThreeStar:
             "signature": signature
         }
         for i in range(6):
-            resp = requests.post(url=url, headers=self.headers, data=data)
+            resp = self.post_request(url, data)
             print(resp.text)
 
     def getjob(self):
@@ -160,8 +174,8 @@ class ThreeStar:
             "signature": signature
         }
 
-        response = requests.post('https://xcx.vipxufan.com/star/apix171/getjob', headers=self.headers, data=data)
-        print(response.text)
+        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/getjob', data)
+        print(resp.text)
 
     def validsave(self):
         url = "https://xcx.vipxufan.com/star/apix171/validSave"
@@ -170,36 +184,29 @@ class ThreeStar:
             "xid": "171"
         }
 
-        resp = requests.post(url, headers=self.headers, data=data)
+        resp = self.post_request(url, data)
         print(resp.json())
         msg = resp.json()["msg"]
         return msg
 
     def get_basic_info(self):
-        """
-        获取基本信息，如每天最高的个数，一次能拿多少钻石
-        :return:
-        """
         data = {
             'uid': self.uid,
             'xid': '171',
         }
 
-        response = requests.post('https://xcx.vipxufan.com/star/apix171/getIndex', headers=self.headers, data=data)
-        # print(response.text)
-        user_info = response.json()["data"]["user_info"]
-        # print(user_info)
-        valid_num = user_info["valid_num"]  # 剩余钻石数量
-        rank = response.json()["data"]["rank"]
-        highest_num = rank["highest_num"]  # 每天最多获取钻石shu
-        auto_num = rank["auto_num"]  # 30秒自动增加的钻石数
+        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/getIndex', data)
+        user_info = resp.json()["data"]["user_info"]
+        rank = resp.json()["data"]["rank"]
+        highest_num = rank["highest_num"]
+        auto_num = rank["auto_num"]
         return highest_num, auto_num
 
     def validNum(self):
         url = "https://xcx.vipxufan.com/star/apix171/validNum"
         time_stamp, random_str, signature = self.a()
         data = {
-            "num": self.highest_num,
+            "num": self.diamonds_num,
             "uid": self.uid,
             "xid": "171",
             "v": "2",
@@ -208,7 +215,7 @@ class ThreeStar:
             "signature": signature
         }
 
-        resp = requests.post(url, headers=self.headers, data=data)
+        resp = self.post_request(url, data)
         print(resp.text)
 
     def weibo_crawler(self) -> str:
@@ -264,8 +271,32 @@ class ThreeStar:
             "signature": signature
         }
 
-        response = requests.post('https://xcx.vipxufan.com/star/apix171/invite', headers=self.headers, data=data)
-        print(response.text)
+        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/invite', data)
+        print(resp.text)
+
+    def check_diamonds_num(self):
+        data = {
+            'uid': self.uid,
+            'xid': '171',
+        }
+        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/getIndex',data=data)
+        user_info = resp.json()["data"]["user_info"]
+        rank_num = user_info["rank_num"]
+        return rank_num
+
+    def check_signList(self):
+        data = {
+            'uid': self.uid,
+            'xid': '171',
+        }
+        continuous_sign_num = 0
+        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/signList', data)
+        sign_job = resp.json()['data']['sign_job']
+        for s in sign_job:
+            if s['status'] == 1:
+                continuous_sign_num = s['id']
+
+        return continuous_sign_num
 
 
 if __name__ == '__main__':

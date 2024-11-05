@@ -82,6 +82,9 @@ def signJob():
         data.__delitem__("type")
         data['id'] = continuous_sign_num
         time_stamp, random_str, signature = a(uid)
+        data["timeStamp"] = time_stamp
+        data["randomStr"] = random_str
+        data["signature"] = signature
         response = requests.post('https://xcx.vipxufan.com/star/apix171/signJob', headers=headers, data=data,
                                  verify=False)
         print(response.text)
@@ -258,7 +261,7 @@ def water():  # 有点奇怪 没有找到能量个数
 
 if __name__ == '__main__':
     uid = os.environ["uid"]
-    # signJob()
+    signJob()
     # chaohua()
     # view_video()
     # xiaochengxu()

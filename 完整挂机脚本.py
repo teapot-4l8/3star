@@ -40,7 +40,7 @@ def validNum():
     url = "https://xcx.vipxufan.com/star/apix171/validNum"
     time_stamp, random_str, signature = a(uid)
     data = {
-        "num": highest_num,
+        "num": diamonds_num,
         "uid": uid,
         "xid": "171",
         "v": "2",
@@ -270,13 +270,20 @@ def get_basic_info():
 
 
 def check_diamonds_num() -> int:
-    pass
+    data = {
+        'uid': uid,
+        'xid': '171',
+    }
+    response = requests.post('https://xcx.vipxufan.com/star/apix171/getIndex', headers=headers, data=data)
+    user_info = response.json()["data"]["user_info"]
+    rank_num = user_info["rank_num"]
+    return rank_num
 
 
 if __name__ == '__main__':  # TODO print -> log
     uid = os.environ['uid']
     highest_num, auto_num = get_basic_info()
-    do_every_day_task()
+    # do_every_day_task()
     print("每日任务完成")
     total_num = int(highest_num/auto_num)
     print(f"循环次数=>{total_num}")
@@ -285,11 +292,8 @@ if __name__ == '__main__':  # TODO print -> log
         msg = validsave()
         if msg:
             break
-        # validNum()
-        # send_diamonds()
         time.sleep(13)
 
-    # TODO 检查前端钻石总数，免得收走钻石的时候报错  找不到 :(
-    # diamonds_num = check_diamonds_num()
-    # validNum()  # 一次性收走所有产出的钻石
+    diamonds_num = check_diamonds_num()
+    validNum()  # 一次性收走所有产出的钻石
     # send_diamonds()  # 一次性将所有钻石存入xyl星球
