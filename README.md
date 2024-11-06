@@ -274,13 +274,6 @@ def a(uid):
 
 用户可为3个uid开箱，最多被6个uid开想箱，现有list存放了n个uid，如何编写代码使得开箱数目为6的用户数量最大化
 
-```
-
-
-```
-
-
-
 ![image-20241104134623869](README.assets/image-20241104134623869.png)
 
 ![image-20241104134709385](README.assets/image-20241104134709385.png)
@@ -319,6 +312,10 @@ def a(uid):
 	"msg": "您今日好友助力已达上限!",
 	"err": "no"
 }
+```
+
+```json
+{"status":0,"data":null,"msg":"已助力过!","err":"no"}
 ```
 
 
