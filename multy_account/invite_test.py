@@ -55,21 +55,25 @@ class ThreeStar:
         e = hex_md5(e)
         return a, o, e
 
-    def assist_jid(self, jid, jid_instance):
-        # 检查助力是否成功
-        assist_status = self.check_assist(jid_instance)
-        if assist_status == 1:
+
+    def assist_jid(self, jid):
+        # 发送网络请求检查助力是否成功
+        response = self.check_assist(jid)
+        if response["status"] == 200 and response["data"]["status"] == 1:
             self.remain_assist_times -= 1
             print(f"{self.uid} assist {jid}, assist_times remain {self.remain_assist_times}")
+        elif response["status"] == 0 and "已达上限" in response["msg"]:
+            self.remain_assist_times = 0
+            print(f"{self.uid} has reached the maximum assist times and is now locked.")
         else:
-            print(f"Assist failed for {jid}, reached maximum assisted times.")
+            print(f"Assist failed for {jid}, msg: {response['msg']}")
 
-    def check_assist(self, jid_instance):
+    def check_assist(self, jid):
         time_stamp, random_str, signature = self.a()
         data = {
             'uid': self.uid,  # "我"
             'xid': '171',
-            'jid': jid_instance.uid,  # "别人"
+            'jid': jid,  # "别人"
             'v': '2',
             "timeStamp": time_stamp,
             "randomStr": random_str,
@@ -78,15 +82,12 @@ class ThreeStar:
 
         resp = self.post_request('https://xcx.vipxufan.com/star/apix171/invite', data)
         print(resp.text)
-        try:
-            if resp.json()['data']['status']:
-                return True
-        except:
-            return False
+        return resp.json()
 
     def assisted(self):
         if self.remain_assisted_times > 0:
             self.remain_assisted_times -= 1
+            print(f"{self.uid} has been assisted, remain_assisted_times left: {self.remain_assisted_times}")
         else:
             print(f"{self.uid} has reached the maximum assisted times.")
 
@@ -99,9 +100,8 @@ if __name__ == '__main__':
     for i in range(len(uid_list)):
         for j in range(len(uid_list)):
             if i != j and ts_accounts[uid_list[i]].remain_assist_times > 0:
-                ts_accounts[uid_list[i]].assist_jid(uid_list[j], ts_accounts[uid_list[j]])
+                ts_accounts[uid_list[i]].assist_jid(uid_list[j])
 
     # 打印每个账号的助力情况
     for uid, ts in ts_accounts.items():
-        print(
-            f"{ts.uid} has {ts.remain_assist_times} assist times left and has been assisted {ts.remain_assisted_times} times.")
+        print(f"{ts.uid} has {ts.remain_assist_times} assist times left and has been assisted {ts.remain_assisted_times} times.")
