@@ -261,8 +261,8 @@ def water():  # 有点奇怪 没有找到能量个数
 
 if __name__ == '__main__':
     uid = os.environ["uid"]
-    signJob()
-    # chaohua()
+    # signJob()
+    chaohua()
     # view_video()
     # xiaochengxu()
     # choujinag()

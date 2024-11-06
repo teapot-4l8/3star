@@ -26,6 +26,8 @@ class ThreeStar:
         # self.uid = os.environ["uid"]
         self.uid = uid
         self.highest_num, self.auto_num = self.get_basic_info()
+        self.assist_times = 0  # 为别人助力次数
+        self.be_assisted_times = 0  # 别人为我助力的次数
 
 
     def a(self):
@@ -47,7 +49,7 @@ class ThreeStar:
         return a, o, e
 
     def start(self):
-        self.do_every_day_task()
+        # self.do_every_day_task()
         print("每日任务完成")
         total_num = int(self.highest_num / self.auto_num)
         print(f"循环次数=>{total_num}")
@@ -64,6 +66,7 @@ class ThreeStar:
         tasks = [self.signJob, self.chaohua, self.view_video, self.xiaochengxu, self.choujinag, self.getjob]
         for task in tasks:
             task()
+        self.water()
 
     def post_request(self, url, data):
         """通用的POST请求方法"""
@@ -297,6 +300,19 @@ class ThreeStar:
                 continuous_sign_num = s['id']
 
         return continuous_sign_num
+
+    def water(self):
+        time_stamp, random_str, signature = self.a()
+        data = {
+            'uid': self.uid,
+            'xid': '171',
+            'v': '2',
+            "timeStamp": time_stamp,
+            "randomStr": random_str,
+            "signature": signature
+        }
+        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/water', data)
+        print(resp.text)
 
 
 if __name__ == '__main__':
