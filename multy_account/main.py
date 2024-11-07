@@ -49,7 +49,7 @@ class ThreeStar:
         return a, o, e
 
     def start(self):
-        # self.do_every_day_task()
+        self.do_every_day_task()
         print("每日任务完成")
         total_num = int(self.highest_num / self.auto_num)
         print(f"循环次数=>{total_num}")
