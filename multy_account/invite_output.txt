@@ -1,0 +1,153 @@
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+7740581754f9f09cb99dceebca95bde6 has reached the maximum assist times and is now locked.
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+cdc8073a78343b06bc838d70ee960afc has reached the maximum assist times and is now locked.
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+12434396fa03089e5f60db85d00fff57 has reached the maximum assist times and is now locked.
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+a8a2952bc89da9e2190fb3c293629e09 has reached the maximum assist times and is now locked.
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+b77ff84f9d8fdd2c1ae45f8999a1de94 assist 7740581754f9f09cb99dceebca95bde6, assist_times remain 2
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+b77ff84f9d8fdd2c1ae45f8999a1de94 assist cdc8073a78343b06bc838d70ee960afc, assist_times remain 1
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 12434396fa03089e5f60db85d00fff57, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+b77ff84f9d8fdd2c1ae45f8999a1de94 assist a8a2952bc89da9e2190fb3c293629e09, assist_times remain 0
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+3b262ba5d4780d79e54716d7aa03f890 has reached the maximum assist times and is now locked.
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+5ebe2a622a09f8c353233c77297d3e1d assist 7740581754f9f09cb99dceebca95bde6, assist_times remain 2
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+5ebe2a622a09f8c353233c77297d3e1d assist cdc8073a78343b06bc838d70ee960afc, assist_times remain 1
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+5ebe2a622a09f8c353233c77297d3e1d has reached the maximum assist times and is now locked.
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+24d9fff24279aa1f47b7b5e1a9612429 has reached the maximum assist times and is now locked.
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+f87e534918e1d914e483434b5beff05c assist 7740581754f9f09cb99dceebca95bde6, assist_times remain 2
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+f87e534918e1d914e483434b5beff05c assist cdc8073a78343b06bc838d70ee960afc, assist_times remain 1
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+f87e534918e1d914e483434b5beff05c has reached the maximum assist times and is now locked.
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+74f0a38d58e28825a16f8d28b4078b04 assist 7740581754f9f09cb99dceebca95bde6, assist_times remain 2
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+74f0a38d58e28825a16f8d28b4078b04 assist cdc8073a78343b06bc838d70ee960afc, assist_times remain 1
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 12434396fa03089e5f60db85d00fff57, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+74f0a38d58e28825a16f8d28b4078b04 assist a8a2952bc89da9e2190fb3c293629e09, assist_times remain 0
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+a18a6ba89940482576243c9ba4f04eb3 assist 7740581754f9f09cb99dceebca95bde6, assist_times remain 2
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+a18a6ba89940482576243c9ba4f04eb3 assist cdc8073a78343b06bc838d70ee960afc, assist_times remain 1
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+a18a6ba89940482576243c9ba4f04eb3 has reached the maximum assist times and is now locked.
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+3c84fb9704a514e853fdb3ec79df942c assist 7740581754f9f09cb99dceebca95bde6, assist_times remain 2
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+3c84fb9704a514e853fdb3ec79df942c assist cdc8073a78343b06bc838d70ee960afc, assist_times remain 1
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 12434396fa03089e5f60db85d00fff57, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+3c84fb9704a514e853fdb3ec79df942c assist a8a2952bc89da9e2190fb3c293629e09, assist_times remain 0
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 7740581754f9f09cb99dceebca95bde6, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for cdc8073a78343b06bc838d70ee960afc, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 12434396fa03089e5f60db85d00fff57, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+70e74d0db4617d8b3c41bc5a1f345965 assist a8a2952bc89da9e2190fb3c293629e09, assist_times remain 2
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+70e74d0db4617d8b3c41bc5a1f345965 assist b77ff84f9d8fdd2c1ae45f8999a1de94, assist_times remain 1
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+70e74d0db4617d8b3c41bc5a1f345965 assist 3b262ba5d4780d79e54716d7aa03f890, assist_times remain 0
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 7740581754f9f09cb99dceebca95bde6, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for cdc8073a78343b06bc838d70ee960afc, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 12434396fa03089e5f60db85d00fff57, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+c13fa19f997be1b31b88da3fc4806d5a assist a8a2952bc89da9e2190fb3c293629e09, assist_times remain 2
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+c13fa19f997be1b31b88da3fc4806d5a has reached the maximum assist times and is now locked.
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 7740581754f9f09cb99dceebca95bde6, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for cdc8073a78343b06bc838d70ee960afc, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 12434396fa03089e5f60db85d00fff57, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+5d838ecf25dab51790aaff176113bf4b assist a8a2952bc89da9e2190fb3c293629e09, assist_times remain 2
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+5d838ecf25dab51790aaff176113bf4b assist b77ff84f9d8fdd2c1ae45f8999a1de94, assist_times remain 1
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 3b262ba5d4780d79e54716d7aa03f890, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+5d838ecf25dab51790aaff176113bf4b assist 5ebe2a622a09f8c353233c77297d3e1d, assist_times remain 0
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 7740581754f9f09cb99dceebca95bde6, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for cdc8073a78343b06bc838d70ee960afc, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 12434396fa03089e5f60db85d00fff57, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for a8a2952bc89da9e2190fb3c293629e09, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+f7fb9414a8904591c39a9e7933f78848 assist b77ff84f9d8fdd2c1ae45f8999a1de94, assist_times remain 2
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+f7fb9414a8904591c39a9e7933f78848 has reached the maximum assist times and is now locked.
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+02372fc0764266931ca945649dad06ca has reached the maximum assist times and is now locked.
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 7740581754f9f09cb99dceebca95bde6, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for cdc8073a78343b06bc838d70ee960afc, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 12434396fa03089e5f60db85d00fff57, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for a8a2952bc89da9e2190fb3c293629e09, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+dc61f37181e11cf723e5404288ff2991 assist b77ff84f9d8fdd2c1ae45f8999a1de94, assist_times remain 2
+{"status":0,"data":null,"msg":"您今日好友助力已达上限!","err":"no"}
+dc61f37181e11cf723e5404288ff2991 has reached the maximum assist times and is now locked.
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 7740581754f9f09cb99dceebca95bde6, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for cdc8073a78343b06bc838d70ee960afc, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 12434396fa03089e5f60db85d00fff57, msg: 该好友助力任务已完成
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for a8a2952bc89da9e2190fb3c293629e09, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+e7d2b59950a62360aa6e2e0a5fa7df8f assist b77ff84f9d8fdd2c1ae45f8999a1de94, assist_times remain 2
+{"status":0,"data":null,"msg":"该好友助力任务已完成","err":"no"}
+Assist failed for 3b262ba5d4780d79e54716d7aa03f890, msg: 该好友助力任务已完成
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+e7d2b59950a62360aa6e2e0a5fa7df8f assist 5ebe2a622a09f8c353233c77297d3e1d, assist_times remain 1
+{"status":200,"data":{"status":1,"msg":"助力成功"},"msg":"","err":""}
+e7d2b59950a62360aa6e2e0a5fa7df8f assist 24d9fff24279aa1f47b7b5e1a9612429, assist_times remain 0
+7740581754f9f09cb99dceebca95bde6 has 0 assist times left and has been assisted 6 times.
+cdc8073a78343b06bc838d70ee960afc has 0 assist times left and has been assisted 6 times.
+12434396fa03089e5f60db85d00fff57 has 0 assist times left and has been assisted 6 times.
+a8a2952bc89da9e2190fb3c293629e09 has 0 assist times left and has been assisted 6 times.
+b77ff84f9d8fdd2c1ae45f8999a1de94 has 0 assist times left and has been assisted 6 times.
+3b262ba5d4780d79e54716d7aa03f890 has 0 assist times left and has been assisted 6 times.
+5ebe2a622a09f8c353233c77297d3e1d has 0 assist times left and has been assisted 6 times.
+24d9fff24279aa1f47b7b5e1a9612429 has 0 assist times left and has been assisted 6 times.
+f87e534918e1d914e483434b5beff05c has 0 assist times left and has been assisted 6 times.
+74f0a38d58e28825a16f8d28b4078b04 has 0 assist times left and has been assisted 6 times.
+a18a6ba89940482576243c9ba4f04eb3 has 0 assist times left and has been assisted 6 times.
+3c84fb9704a514e853fdb3ec79df942c has 0 assist times left and has been assisted 6 times.
+70e74d0db4617d8b3c41bc5a1f345965 has 0 assist times left and has been assisted 6 times.
+c13fa19f997be1b31b88da3fc4806d5a has 0 assist times left and has been assisted 6 times.
+5d838ecf25dab51790aaff176113bf4b has 0 assist times left and has been assisted 6 times.
+f7fb9414a8904591c39a9e7933f78848 has 0 assist times left and has been assisted 6 times.
+02372fc0764266931ca945649dad06ca has 0 assist times left and has been assisted 6 times.
+dc61f37181e11cf723e5404288ff2991 has 0 assist times left and has been assisted 6 times.
+e7d2b59950a62360aa6e2e0a5fa7df8f has 0 assist times left and has been assisted 6 times.
+
+Process finished with exit code 0

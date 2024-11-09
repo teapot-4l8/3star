@@ -187,6 +187,7 @@ def xiaochengxu():
     """
     体验小程序x2
     :return: {"status":200,"data":{"num":5,"msg":"ok"},"msg":"ok","err":null}
+    {"status":0,"data":null,"msg":"该今日任务已达上限","err":"no"}
     """
     url = "https://xcx.vipxufan.com//star/apix171/appjob"
     time_stamp, random_str, signature = a(uid)
@@ -212,6 +213,7 @@ def choujinag():
     抽奖任务，3次，务上显示4次，实际上只能抽三次，再多就要看视频。视频最多看3次。也就是每天有6次抽奖机会
     :return:
     {"status":200,"data":{"rank":"","times":1,"angle":90,"content":{"id":2,"name":"5克能量","desc":"能量","valid_num":0,"type":2,"rank":90,"water":5}},"msg":"ok","err":null}
+    {"status":200,"data":0,"msg":"次数以用完了","err":null}
     """
     time_stamp, random_str, signature = a(uid)
     url = "https://xcx.vipxufan.com/star/apix171/lotteryWeb"

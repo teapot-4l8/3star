@@ -1,7 +1,14 @@
-import requests
+# -*- coding: utf-8 -*-
+# @Author  : chaiyunze@gmail.com
+# @Time    : 2024/11/7 15:10
+# @Desc    :
+
+import asyncio
+import aiohttp  # 使用aiohttp替代requests
 import hashlib
 import time
 import random
+import os
 import re
 
 from account import uid_list
@@ -27,7 +34,6 @@ class ThreeStar:
         self.assist_times = 0  # 为别人助力次数
         self.be_assisted_times = 0  # 别人为我助力的次数
 
-
     def a(self):
         t = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         i = random.randint(0, len(t))
@@ -46,35 +52,32 @@ class ThreeStar:
         e = hex_md5(e)
         return a, o, e
 
-    def start(self):
-        # self.do_every_day_task()
+    async def start(self):
+        await self.do_every_day_task()
         print("每日任务完成")
         total_num = int(self.highest_num / self.auto_num)
         print(f"循环次数=>{total_num}")
         print(f"需要{total_num * 13 / 60}分钟")
         for i in range(total_num):
-            msg = self.validsave()
+            msg = await self.validsave()
             if msg:
-                print("挂机完成。如果没有，请关闭关闭小程序再运行")
                 break
-            time.sleep(13)
-        self.diamonds_num = self.check_diamonds_num()
-        self.validNum()
+            await asyncio.sleep(13)
+        self.diamonds_num = await self.check_diamonds_num()
+        await self.validNum()
 
-    def do_every_day_task(self):
-        tasks = [self.signJob, self.chaohua, self.view_video, self.xiaochengxu, self.choujiang, self.getjob]
-        for task in tasks:
-            task()
-        # self.water()
+    async def do_every_day_task(self):
+        tasks = [self.signJob, self.chaohua, self.view_video, self.xiaochengxu, self.choujinag, self.getjob]
+        await asyncio.gather(*(task() for task in tasks))  # 使用asyncio.gather并发执行任务
+        await self.water()
 
-    def post_request(self, url, data):
+    async def post_request(self, url, data):
         """通用的POST请求方法"""
-        resp = requests.post(url, headers=self.headers, data=data)
-        # print(resp.text)
-        return resp
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=self.headers, data=data) as resp:
+                return await resp.json()  # 返回JSON响应
 
-    def signJob(self):
-        print("\n===============签到==================")
+    async def signJob(self):
         time_stamp, random_str, signature = self.a()
         data = {
             "type": "1",
@@ -85,25 +88,20 @@ class ThreeStar:
             "randomStr": random_str,
             "signature": signature
         }
-        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/signJob', data)
-        print(resp.text)
+        resp = await self.post_request('https://xcx.vipxufan.com/star/apix171/signJob', data)
+        print(resp)
 
-        continuous_sign_num = self.check_signList()
+        continuous_sign_num = await self.check_signList()
         if continuous_sign_num:
-            data.__delitem__("type")
+            data.pop("type")  # 使用pop删除键
             data['id'] = continuous_sign_num
             time_stamp, random_str, signature = self.a()
             data.update({"timeStamp": time_stamp, "randomStr": random_str, "signature": signature})
-            resp = self.post_request('https://xcx.vipxufan.com/star/apix171/signJob', data)
-            print(resp.text)
-        print()
+            resp = await self.post_request('https://xcx.vipxufan.com/star/apix171/signJob', data)
+            print(resp)
 
-    def chaohua(self):
-        print("\n===============微博发超话1次==================")
-        url = self.weibo_crawler()
-        if not url:
-            print("weibo url not found")
-            return
+    async def chaohua(self):
+        url = await self.weibo_crawler()
         data = {
             'type': '0',
             'url': url,
@@ -111,11 +109,10 @@ class ThreeStar:
             'xid': '171',
         }
 
-        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/checkChaoHua', data)
-        print(resp.text)
+        resp = await self.post_request('https://xcx.vipxufan.com/star/apix171/checkChaoHua', data)
+        print(resp)
 
-    def view_video(self):
-        print("\n===============看视频5+2次==================")
+    async def view_video(self):
         time_stamp, random_str, signature = self.a()
         url = "https://xcx.vipxufan.com//star/apix171/viewVideo"
         data = {
@@ -128,21 +125,15 @@ class ThreeStar:
         }
 
         for i in range(5):
-            resp = self.post_request(url, data)
-            print(resp.text)
-            if not resp.json()["data"]["is_view"]:
-                break
+            resp = await self.post_request(url, data)
+            print(resp)
 
         data["type"] = "1"
-        for i in range(2):
-            resp = self.post_request(url, data)
-            print(resp.text)
-            if not resp.json()['status']:
-                break
+        for i in range(3):
+            resp = await self.post_request(url, data)
+            print(resp)
 
-
-    def xiaochengxu(self):
-        print("\n===============打开小程序2次==================")
+    async def xiaochengxu(self):
         url = "https://xcx.vipxufan.com//star/apix171/appjob"
         time_stamp, random_str, signature = self.a()
         data = {
@@ -155,16 +146,13 @@ class ThreeStar:
             "signature": signature
         }
 
-        resp = self.post_request(url, data)
-        print(resp.text)
-        if not resp.json()["status"]:
-            return
+        resp = await self.post_request(url, data)
+        print(resp)
         data["appId"] = "wxa501c36b93761f58"
-        resp = self.post_request(url, data)
-        print(resp.text)
+        resp = await self.post_request(url, data)
+        print(resp)
 
-    def choujiang(self):
-        print("\n===============抽奖6次==================")
+    async def choujinag(self):
         time_stamp, random_str, signature = self.a()
         url = "https://xcx.vipxufan.com/star/apix171/lotteryWeb"
         data = {
@@ -177,12 +165,10 @@ class ThreeStar:
             "signature": signature
         }
         for i in range(6):
-            resp = self.post_request(url, data)
-            print(resp.text)
-            if not resp.json()["data"]:  # 次数用完
-                break
+            resp = await self.post_request(url, data)
+            print(resp)
 
-    def getjob(self):
+    async def getjob(self):
         time_stamp, random_str, signature = self.a()
         data = {
             'id': '3',
@@ -190,40 +176,39 @@ class ThreeStar:
             'xid': '171',
             'v': '2',
             "timeStamp": time_stamp,
-            "timeStamp": time_stamp,
             "randomStr": random_str,
             "signature": signature
         }
 
-        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/getjob', data)
-        print(resp.text)
+        resp = await self.post_request('https://xcx.vipxufan.com/star/apix171/getjob', data)
+        print(resp)
 
-    def validsave(self):
+    async def validsave(self):
         url = "https://xcx.vipxufan.com/star/apix171/validSave"
         data = {
             "uid": self.uid,
             "xid": "171"
         }
 
-        resp = self.post_request(url, data)
-        print(resp.json())
-        msg = resp.json()["msg"]
+        resp = await self.post_request(url, data)
+        print(resp)
+        msg = resp.get("msg")
         return msg
 
-    def get_basic_info(self):
+    async def get_basic_info(self):
         data = {
             'uid': self.uid,
             'xid': '171',
         }
 
-        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/getIndex', data)
-        user_info = resp.json()["data"]["user_info"]
-        rank = resp.json()["data"]["rank"]
+        resp = await self.post_request('https://xcx.vipxufan.com/star/apix171/getIndex', data)
+        user_info = resp["data"]["user_info"]
+        rank = resp["data"]["rank"]
         highest_num = rank["highest_num"]
         auto_num = rank["auto_num"]
         return highest_num, auto_num
 
-    def validNum(self):
+    async def validNum(self):
         url = "https://xcx.vipxufan.com/star/apix171/validNum"
         time_stamp, random_str, signature = self.a()
         data = {
@@ -236,10 +221,10 @@ class ThreeStar:
             "signature": signature
         }
 
-        resp = self.post_request(url, data)
-        print(resp.text)
+        resp = await self.post_request(url, data)
+        print(resp)
 
-    def weibo_crawler(self) -> str:
+    async def weibo_crawler(self) -> str:
         DOMAIN = "https://m.weibo.cn/detail/"
         headers = {
             'accept': 'application/json, text/plain, */*',
@@ -262,25 +247,23 @@ class ThreeStar:
         params = {
             'extparam': '肖宇梁',
             'containerid': '100808abb887d7734e4121eef9853b451c11b9',
-            # 'luicode': '20000061',
-            # 'lfid': '5095189509047708',
         }
-        response = requests.get('https://m.weibo.cn/api/container/getIndex', params=params, headers=headers)
-        cards = response.json()['data']['cards']
-        for card in cards:
-            try:
-                mblog = card['mblog']
-                text = mblog['text']
-                id_ = mblog['id']
-                target_page_url = DOMAIN + id_
-                if bool(re.search(r'『五号星球』', text)):
-                    return target_page_url
-            except KeyError:
-                pass
+        async with aiohttp.ClientSession() as session:
+            async with session.get('https://m.weibo.cn/api/container/getIndex', params=params, headers=headers) as response:
+                cards = (await response.json())['data']['cards']
+                for card in cards:
+                    try:
+                        mblog = card['mblog']
+                        text = mblog['text']
+                        id_ = mblog['id']
+                        target_page_url = DOMAIN + id_
+                        if bool(re.search(r'『五号星球』', text)):
+                            return target_page_url
+                    except KeyError:
+                        pass
         return ""
 
-
-    def invite(self):
+    async def invite(self):
         time_stamp, random_str, signature = self.a()
         data = {
             'uid': self.uid,  # "我"
@@ -292,35 +275,34 @@ class ThreeStar:
             "signature": signature
         }
 
-        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/invite', data)
-        print(resp.text)
+        resp = await self.post_request('https://xcx.vipxufan.com/star/apix171/invite', data)
+        print(resp)
 
-    def check_diamonds_num(self):
+    async def check_diamonds_num(self):
         data = {
             'uid': self.uid,
             'xid': '171',
         }
-        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/getIndex',data=data)
-        user_info = resp.json()["data"]["user_info"]
+        resp = await self.post_request('https://xcx.vipxufan.com/star/apix171/getIndex', data=data)
+        user_info = resp["data"]["user_info"]
         rank_num = user_info["rank_num"]
         return rank_num
 
-    def check_signList(self):
+    async def check_signList(self):
         data = {
             'uid': self.uid,
             'xid': '171',
         }
         continuous_sign_num = 0
-        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/signList', data)
-        sign_job = resp.json()['data']['sign_job']
+        resp = await self.post_request('https://xcx.vipxufan.com/star/apix171/signList', data)
+        sign_job = resp['data']['sign_job']
         for s in sign_job:
             if s['status'] == 1:
                 continuous_sign_num = s['id']
 
         return continuous_sign_num
 
-    def water(self):
-        print("\n=========使用能量=============")
+    async def water(self):
         time_stamp, random_str, signature = self.a()
         data = {
             'uid': self.uid,
@@ -330,12 +312,25 @@ class ThreeStar:
             "randomStr": random_str,
             "signature": signature
         }
-        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/water', data)
-        print(resp.text)
+        resp = await self.post_request('https://xcx.vipxufan.com/star/apix171/water', data)
+        print(resp)
 
+async def start_task(uid, delay):
+    ts = ThreeStar(uid)
+    await asyncio.sleep(delay)
+    await ts.start()
+
+async def main():
+    BREAK_TIME = 13
+    num_uids = len(uid_list)
+    interval = BREAK_TIME / (num_uids - 1) if num_uids > 1 else 0  # 防止除以零
+    tasks = []
+    for i, uid in enumerate(uid_list):
+        delay = interval * i  # 计算每个任务的延迟时间
+        task = start_task(uid, delay)
+        tasks.append(task)
+
+    await asyncio.gather(*tasks)
 
 if __name__ == '__main__':
-    for uid in uid_list:
-        ts = ThreeStar(uid)
-        ts.start()
-        break
+    asyncio.run(main())
