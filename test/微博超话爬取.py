@@ -26,14 +26,18 @@ headers = {
     'x-xsrf-token': '5fa3ae',
 }
 
+def send_get_request(since_id=None):
+    params = {
+        'extparam': '肖宇梁',
+        'containerid': '100808abb887d7734e4121eef9853b451c11b9',
+    }
+    if since_id:
+        params["since_id"] = since_id  # 如果有since_id，则添加到请求参数中
 
-def send_get_request():
-    response = requests.get('https://m.weibo.cn/api/container/getIndex', params=params,headers=headers)
-    # print(response.json())
+    response = requests.get('https://m.weibo.cn/api/container/getIndex', params=params, headers=headers)
     data = response.json()['data']
     cards = data['cards']
-    # print(cards)
-    since_id = data['pageInfo']['since_id']
+    since_id = data['pageInfo']['since_id']  # 获取新的since_id
     return cards, since_id
 
 def is_target(text):
@@ -51,19 +55,20 @@ def parse_response(card):
         print(id_)
         print(target_page_url)
         print("=============================================")
+        return True  # 返回True表示找到了目标文本
+    return False  # 返回False表示没有找到目标文本
 
 
 if __name__ == '__main__':
-    params = {
-        'extparam': '肖宇梁',
-        'containerid': '100808abb887d7734e4121eef9853b451c11b9',
-        # 'luicode': '20000061',
-        # 'lfid': '5095189509047708',
-        # "since_id": "5099143848529594"  # 靠这里翻页
-    }
-    cards, since_id = send_get_request()
-    for card in cards:
-        try:
-            parse_response(card)
-        except KeyError:
-            pass
+    since_id = None  # 初始化since_id为None
+    while True:
+        cards, since_id = send_get_request(since_id)  # 发送请求并获取cards和since_id
+        if not cards:  # 如果没有返回的cards，结束循环
+            print("没有更多的内容可供翻页。")
+            break
+        for card in cards:
+            try:
+                if parse_response(card):  # 如果找到了目标文本，结束程序
+                    exit()
+            except KeyError:
+                pass
