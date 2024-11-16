@@ -227,7 +227,7 @@ def do_every_day_task():
     xiaochengxu()
     choujinag()
     getjob()
-    # water()  # 可删去 让用户看到效果
+    water()  # 可删去 让用户看到效果
 
 def xiaochengxu():
     url = "https://xcx.vipxufan.com//star/apix171/appjob"
@@ -283,7 +283,7 @@ def check_diamonds_num() -> int:
 if __name__ == '__main__':  # TODO print -> log
     uid = os.environ['uid']
     highest_num, auto_num = get_basic_info()
-    # do_every_day_task()
+    do_every_day_task()
     print("每日任务完成")
     total_num = int(highest_num/auto_num)
     print(f"循环次数=>{total_num}")

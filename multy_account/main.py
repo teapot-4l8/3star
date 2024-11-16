@@ -5,6 +5,7 @@ import random
 import re
 
 from account import uid_list
+from weibo import weibo_crawler, send_chaohua_request, DOMAIN
 
 class ThreeStar:
     def __init__(self, uid):
@@ -47,7 +48,7 @@ class ThreeStar:
         return a, o, e
 
     def start(self):
-        # self.do_every_day_task()
+        self.do_every_day_task()
         print("每日任务完成")
         total_num = int(self.highest_num / self.auto_num)
         print(f"循环次数=>{total_num}")
@@ -98,21 +99,32 @@ class ThreeStar:
             print(resp.text)
         print()
 
-    def chaohua(self):
+    def chaohua(self):  # TODO 修改好逻辑，现在这个是错误的
         print("\n===============微博发超话1次==================")
-        url = self.weibo_crawler()
-        if not url:
-            print("weibo url not found")
-            return
-        data = {
-            'type': '0',
-            'url': url,
-            'uid': self.uid,
-            'xid': '171',
-        }
-
-        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/checkChaoHua', data)
-        print(resp.text)
+        while True:  # 一直尝试取链接，直到成功为止
+            cards, since_id = send_chaohua_request()
+            if not cards:  # 如果没有返回的cards，结束循环
+                print("没有更多的内容可供翻页。")
+                break
+            for card in cards:
+                try:
+                    mblog = card['mblog']
+                    text = mblog['text']
+                    id_ = mblog['id']
+                    target_page_url = DOMAIN + id_
+                    if bool(re.search(r'『五号星球』', text)):
+                        data = {
+                            'type': '0',
+                            'url': target_page_url,
+                            'uid': self.uid,
+                            'xid': '171',
+                        }
+                        resp = self.post_request('https://xcx.vipxufan.com/star/apix171/checkChaoHua', data)
+                        print(resp.text)
+                        return resp.json()['data']
+                except KeyError:
+                    pass
+            print("target link not found in this loop")
 
     def view_video(self):
         print("\n===============看视频5+2次==================")
@@ -238,47 +250,6 @@ class ThreeStar:
 
         resp = self.post_request(url, data)
         print(resp.text)
-
-    def weibo_crawler(self) -> str:
-        DOMAIN = "https://m.weibo.cn/detail/"
-        headers = {
-            'accept': 'application/json, text/plain, */*',
-            'accept-language': 'zh-CN,zh;q=0.9',
-            'cache-control': 'no-cache',
-            'mweibo-pwa': '1',
-            'pragma': 'no-cache',
-            'priority': 'u=1, i',
-            'referer': 'https://m.weibo.cn/p/index?extparam=%E8%82%96%E5%AE%87%E6%A2%81&containerid=100808abb887d7734e4121eef9853b451c11b9&luicode=20000061&lfid=5095189509047708',
-            'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"Windows"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-origin',
-            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
-            'x-requested-with': 'XMLHttpRequest',
-            'x-xsrf-token': '5fa3ae',
-        }
-        params = {
-            'extparam': '肖宇梁',
-            'containerid': '100808abb887d7734e4121eef9853b451c11b9',
-            # 'luicode': '20000061',
-            # 'lfid': '5095189509047708',
-        }
-        response = requests.get('https://m.weibo.cn/api/container/getIndex', params=params, headers=headers)
-        cards = response.json()['data']['cards']
-        for card in cards:
-            try:
-                mblog = card['mblog']
-                text = mblog['text']
-                id_ = mblog['id']
-                target_page_url = DOMAIN + id_
-                if bool(re.search(r'『五号星球』', text)):
-                    return target_page_url
-            except KeyError:
-                pass
-        return ""
-
 
     def invite(self):
         time_stamp, random_str, signature = self.a()

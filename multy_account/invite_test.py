@@ -2,9 +2,7 @@
 # @Time    : 2024/11/6 11:46
 # @Desc    : 测试多人助力逻辑
 import hashlib
-
 import requests
-
 from account import uid_list
 import os
 import random

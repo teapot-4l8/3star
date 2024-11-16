@@ -7,6 +7,7 @@ import re
 
 DOMAIN = "https://m.weibo.cn/detail/"
 
+
 headers = {
     'accept': 'application/json, text/plain, */*',
     'accept-language': 'zh-CN,zh;q=0.9',
@@ -26,7 +27,7 @@ headers = {
     'x-xsrf-token': '5fa3ae',
 }
 
-def send_get_request(since_id=None):
+def send_chaohua_request(since_id=None):
     params = {
         'extparam': '肖宇梁',
         'containerid': '100808abb887d7734e4121eef9853b451c11b9',
@@ -40,35 +41,26 @@ def send_get_request(since_id=None):
     since_id = data['pageInfo']['since_id']  # 获取新的since_id
     return cards, since_id
 
-def is_target(text):
-    return bool(re.search(r'『五号星球』', text))  # 检查text中是否包含"『五号星球』"
 
-def parse_response(card):
-    mblog = card['mblog']
-    created_at = mblog['created_at']
-    text = mblog['text']
-    id_ = mblog['id']
-    target_page_url = DOMAIN + id_
-    if is_target(text):
-        print(created_at)
-        print(text)
-        print(id_)
-        print(target_page_url)
-        print("=============================================")
-        return True  # 返回True表示找到了目标文本
-    return False  # 返回False表示没有找到目标文本
-
-
-if __name__ == '__main__':
-    since_id = None  # 初始化since_id为None
+def weibo_crawler():
     while True:
-        cards, since_id = send_get_request(since_id)  # 发送请求并获取cards和since_id
+        cards, since_id = send_chaohua_request()  # 发送请求并获取cards和since_id
         if not cards:  # 如果没有返回的cards，结束循环
             print("没有更多的内容可供翻页。")
             break
         for card in cards:
             try:
-                if parse_response(card):  # 如果找到了目标文本，结束程序
-                    exit()
+                mblog = card['mblog']
+                text = mblog['text']
+                id_ = mblog['id']
+                target_page_url = DOMAIN + id_
+                if bool(re.search(r'『五号星球』', text)):
+                    return target_page_url
             except KeyError:
                 pass
+        print("target link not found in this loop")
+
+
+if __name__ == '__main__':
+    # since_id = None  # 初始化since_id为None
+    print(weibo_crawler())
