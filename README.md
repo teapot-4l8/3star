@@ -60,7 +60,8 @@
                     title: "加载中",
                     mask: !0
                 });
-                var s = wx.getStorageSync("user");
+                var s = wx.get
+                StorageSync("user");
                 s.uid ? t.uid = s.uid : s = {},
                 t.code = a,
                 t.xid = 171,

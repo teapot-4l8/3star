@@ -127,7 +127,7 @@ class ThreeStar:
             print("target link not found in this loop")
 
     def view_video(self):
-        print("\n===============看视频5+2次==================")
+        print("\n===============看视频5+3次==================")
         time_stamp, random_str, signature = self.a()
         url = "https://xcx.vipxufan.com//star/apix171/viewVideo"
         data = {
@@ -146,7 +146,7 @@ class ThreeStar:
                 break
 
         data["type"] = "1"
-        for i in range(2):
+        for i in range(3):
             resp = self.post_request(url, data)
             print(resp.text)
             if not resp.json()['status']:
@@ -191,7 +191,7 @@ class ThreeStar:
         for i in range(6):
             resp = self.post_request(url, data)
             print(resp.text)
-            if not resp.json()["data"]:  # 次数用完
+            if not resp.json()["data"]:  # TODO 循环次数疑似缺少1次 次数用完
                 break
 
     def getjob(self):
@@ -201,7 +201,6 @@ class ThreeStar:
             'uid': self.uid,
             'xid': '171',
             'v': '2',
-            "timeStamp": time_stamp,
             "timeStamp": time_stamp,
             "randomStr": random_str,
             "signature": signature

@@ -2,6 +2,7 @@
 # @Author  : chaiyunze@gmail.com
 # @Time    : 2024/10/27 9:57
 # @Desc    :
+import aiohttp
 import requests
 import re
 
@@ -40,6 +41,23 @@ def send_chaohua_request(since_id=None):
     cards = data['cards']
     since_id = data['pageInfo']['since_id']  # 获取新的since_id
     return cards, since_id
+
+
+async def send_chaohua_async_request(since_id=None):
+    params = {
+        'extparam': '肖宇梁',
+        'containerid': '100808abb887d7734e4121eef9853b451c11b9',
+    }
+    if since_id:
+        params["since_id"] = since_id  # 如果有since_id，则添加到请求参数中
+
+    async with aiohttp.ClientSession(headers=headers) as session:
+        async with session.get('https://m.weibo.cn/api/container/getIndex', params=params) as resp:
+            data = await resp.json()
+            print(data)
+            cards = data['data']['cards']
+            since_id = data['data']['pageInfo']['since_id']
+            return cards, since_id
 
 
 def weibo_crawler():
