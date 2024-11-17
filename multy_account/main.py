@@ -5,7 +5,7 @@ import random
 import re
 
 from account import uid_list
-from weibo import weibo_crawler, send_chaohua_request, DOMAIN
+from weibo import send_chaohua_request, DOMAIN
 
 class ThreeStar:
     def __init__(self, uid):
@@ -99,7 +99,7 @@ class ThreeStar:
             print(resp.text)
         print()
 
-    def chaohua(self):  # TODO 修改好逻辑，现在这个是错误的
+    def chaohua(self):
         print("\n===============微博发超话1次==================")
         while True:  # 一直尝试取链接，直到成功为止
             cards, since_id = send_chaohua_request()
